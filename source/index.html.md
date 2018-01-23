@@ -1,15 +1,14 @@
 ---
-title: API Reference
+title: API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+  - curl
   - ruby
   - python
   - javascript
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -19,145 +18,158 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the <app_name> API! You can use our API to access <app_name> API endpoints, which can get information on mobile messaging services - SMS and VOICE
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+You can view code examples in the dark area to the right. You can switch the programming language of the examples with the tabs in the top right.
 
 # Authentication
 
 > To authorize, use this code:
 
 ```ruby
-require 'kittn'
+require 'app_name'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
 ```
 
 ```python
-import kittn
+import app_name
 
-api = kittn.authorize('meowmeowmeow')
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const app_name = require('app_name');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `Thequickbrownfoxjumpsoverthelazydog` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+AppName uses API keys to allow access to the API. You can register a new AppName API key at our [developer portal](http://app-domain.com/developers).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+AppName expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: meowmeowmeow`
+`Authorization: Thequickbrownfoxjumpsoverthelazydog`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>Thequickbrownfoxjumpsoverthelazydog</code> with your personal API key.
 </aside>
 
-# Kittens
+# Send SMS
 
-## Get All Kittens
+## send single sms
 
 ```ruby
-require 'kittn'
+require 'app_name'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.messages.create(
+    '0800900900',
+    '0800990990',
+    'Hi, Lets meet for coffee'
+  )
+  puts response
 ```
 
 ```python
-import kittn
+import app_name
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.messages.create(
+    from='from_number',
+    to='to_number',
+    text='Hi, Lets meet for coffee', )
+print(response)
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://app-domain.com/api/messages"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+    -d '{"from": "07111111111","to": "14156667777", "text": "Hi, Lets meet for coffee"}' \
+
 ```
 
 ```javascript
-const kittn = require('kittn');
+const app_name = require('app_name');
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let text = "Let's meet for coffee"
+let response = api.messages.create(
+      "14153336666", // from
+      "14156667777", // to
+      "Test Message", // text
+  );
+  console.log(response);
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "to": "14156667777",
+  "message_id": 134,
+  "status": "Successful",
+  "message_price": "0.56"
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint enables you to send messages.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+<aside class="success">
+GET http://app-domain.com/api/messages
+</aside>
 
 ### Query Parameters
 
-Parameter | Default | Description
+Parameter | Required | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+to | true | Phone number of the recipient.
+from | true | Phone number of the sender.
+text | true | Message to be sent.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
 
-## Get a Specific Kitten
+## Bulk messaging
+
+It is possible to send one message to multiple recipients via a single API request.
+
+Provide a list of recipient numbers separated with commas. (e.g. 254756667547<254758778318<254758809799).
+
+
 
 ```ruby
-require 'kittn'
+require 'app_name'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
 api.kittens.get(2)
 ```
 
 ```python
-import kittn
+import app_name
 
-api = kittn.authorize('meowmeowmeow')
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
 api.kittens.get(2)
 ```
 
 ```shell
 curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const app_name = require('app_name');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
 let max = api.kittens.get(2);
 ```
 
@@ -190,29 +202,29 @@ ID | The ID of the kitten to retrieve
 ## Delete a Specific Kitten
 
 ```ruby
-require 'kittn'
+require 'app_name'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
 api.kittens.delete(2)
 ```
 
 ```python
-import kittn
+import app_name
 
-api = kittn.authorize('meowmeowmeow')
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
 api.kittens.delete(2)
 ```
 
 ```shell
 curl "http://example.com/api/kittens/2"
   -X DELETE
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const app_name = require('app_name');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
 let max = api.kittens.delete(2);
 ```
 
@@ -236,4 +248,3 @@ This endpoint deletes a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
-
