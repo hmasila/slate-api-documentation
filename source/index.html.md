@@ -2,7 +2,7 @@
 title: API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - curl
+  - shell
   - ruby
   - python
   - javascript
@@ -71,8 +71,8 @@ require 'app_name'
 
 api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
 response = api.messages.create(
-    '0800900900',
-    '0800990990',
+    '25409907990',
+    '25429907390',
     'Hi, Lets meet for coffee'
   )
   puts response
@@ -83,8 +83,8 @@ import app_name
 
 api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
 response = api.messages.create(
-    from='from_number',
-    to='to_number',
+    from='25409907990',
+    to='25429907390',
     text='Hi, Lets meet for coffee', )
 print(response)
 ```
@@ -93,7 +93,7 @@ print(response)
 curl "http://app-domain.com/api/messages"
     -H "Content-Type: application/json" \
     -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
-    -d '{"from": "07111111111","to": "14156667777", "text": "Hi, Lets meet for coffee"}' \
+    -d '{"from": "25429907390","to": "25409907990", "text": "Hi, Lets meet for coffee"}'
 
 ```
 
@@ -103,9 +103,9 @@ const app_name = require('app_name');
 let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
 let text = "Let's meet for coffee"
 let response = api.messages.create(
-      "14153336666", // from
-      "14156667777", // to
-      "Test Message", // text
+      "25429907390", // from
+      "25409907990", // to
+      "Hi, Lets meet for coffee", // text
   );
   console.log(response);
 ```
@@ -114,7 +114,7 @@ let response = api.messages.create(
 
 ```json
 {
-  "to": "14156667777",
+  "to": "25409907990",
   "message_id": 134,
   "status": "Successful",
   "message_price": "0.56"
@@ -143,7 +143,7 @@ Sanitized phone numbers must begin with the international country code (ex: 2547
 
 It is possible to send one message to multiple recipients via a single API request.
 
-Provide a list of recipient numbers separated with commas. (e.g. 254756667547<254758778318<254758809799).
+Provide a list of recipient numbers separated with commas. (e.g. 254756667547, 254758778318, 254758809799).
 
 
 
@@ -151,53 +151,92 @@ Provide a list of recipient numbers separated with commas. (e.g. 254756667547<25
 require 'app_name'
 
 api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
-api.kittens.get(2)
+response = api.messages.create(
+    '254700900900',
+    '25409907990, 25429907390, 25419907590, 25407907960',
+    'Hi, the meeting has been moved to 4pm'
+  )
+  puts response
 ```
 
 ```python
 import app_name
 
 api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
-api.kittens.get(2)
+response = api.messages.create(
+    from='254700900900',
+    to='25409907990, 25429907390, 25419907590, 25407907960',
+    text='Hi, the meeting has been moved to 4pm', )
+print(response)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+curl "http://app-domain.com/api/messages"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+    -d '{"from": "254700900900","to": "25409907990, 25429907390, 25419907590, 25407907960", "text": "Hi, the meeting has been moved to 4pm"}' \
+
 ```
 
 ```javascript
 const app_name = require('app_name');
 
 let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
-let max = api.kittens.get(2);
+let text = "Let's meet for coffee"
+let response = api.messages.create(
+      "254700900900", // from
+      "25409907990, 25429907390, 25419907590, 25407907960", // to
+      "Hi, the meeting has been moved to 4pm", // text
+  );
+  console.log(response);
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
+[
+  {
+    "to": "25409907990",
+    "message_id": 138,
+    "status": "Successful",
+    "message_price": "0.56"
+  },
+  {
+    "to": "25429907390",
+    "message_id": 139,
+    "status": "Failed",
+    "message_price": "0.00"
+  },
+  {
+    "to": "25419907590",
+    "message_id": 140,
+    "status": "Successful",
+    "message_price": "0.56"
+  },
+  {
+    "to": "25407907960",
+    "message_id": 141,
+    "status": "Successful",
+    "message_price": "0.56"
+  }
+]
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint enables you to send bulk messages.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+<aside class="success">
+GET http://app-domain.com/api/bulk-messages
+</aside>
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required | Description
+--------- | ------- | -----------
+to | true | Phone numbers of the recipients separated by commas.
+from | true | Phone number of the sender.
+text | true | Message to be sent.
 
 ## Delete a Specific Kitten
 
