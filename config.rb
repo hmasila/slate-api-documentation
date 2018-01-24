@@ -48,6 +48,12 @@ configure :build do
   # activate :gzip
 end
 
+# Use “pretty” URLs (without the `.html` suffix)
+activate :directory_indexes
+
+# Append hashes to compiled assets
+activate :asset_hash
+
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
 set :port, 4567
