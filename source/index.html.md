@@ -73,7 +73,7 @@ You must replace <code>Thequickbrownfoxjumpsoverthelazydog</code> with your pers
 
 # Send SMS
 
-## send single sms
+## Single SMS Messaging
 
 ```ruby
 require 'app_name'
@@ -161,7 +161,7 @@ text | true | Message to be sent.
 
 Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
 
-## Bulk messaging
+## Bulk SMS Messaging
 
 It is possible to send one message to multiple recipients via a single API request.
 
@@ -272,7 +272,7 @@ text | true | Message to be sent.
 
 # Send Voice Messages
 
-## send single voice message
+## Single Voice Messaging
 
 ```ruby
 require 'app_name'
