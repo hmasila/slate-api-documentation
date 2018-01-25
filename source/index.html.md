@@ -480,3 +480,169 @@ text | true | Voice message to be sent.
 voice | false | The voice in which the messages needs to be read to the recipient. Possible values are: male, female.
 Default: female
 language | false | The language in which the message needs to be read to the recipient. Possible values are: <> Default: en-gb
+
+# HLR Lookup
+An HLR allows you to view details of a mobile number (MSISDN).
+
+## Single HLR Lookup
+
+```ruby
+require 'app_name'
+
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.hlr_lookup.search('25409907990')
+puts response
+```
+
+```python
+import app_name
+
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.hlr_lookup.search(msisdn='25409907990')
+print(response)
+```
+
+```shell
+curl "http://app-domain.com/api/hlr-lookup?msisdn=25429907390"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+
+```
+
+```javascript
+const app_name = require('app_name');
+
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let response = api.hlr_lookup.search("25429907390");
+console.log(response);
+```
+
+```php
+<?
+require 'app_name';
+use AppName\APIClient;
+
+$api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
+$response = $api->hlr_lookup->search("25429907390");
+print_r($response);
+?>
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "hlr_id": 1245,
+  "msisdn": 25429907390,
+  "status": "Active",
+  "country_iso": "KE",
+  "country_name": "Kenya"
+}
+```
+
+This endpoint enables you search for phone number details.
+
+### HTTP Request
+
+<aside class="success">
+GET http://app-domain.com/api/hlr-lookup?msisdn=xyz
+</aside>
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+msisdn | true | Phone number you want to look up.
+
+Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
+
+## Bulk HLR Lookup
+
+```ruby
+require 'app_name'
+
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.bulk_hlr_lookup.search('25429907390, 25622307390, 15417242018')
+puts response
+```
+
+```python
+import app_name
+
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.bulk_hlr_lookup.search(msisdns='25429907390, 25622307390, 15417242018')
+print(response)
+```
+
+```shell
+curl -G -v "http://app-domain.com/api/bulk-hlr-lookup"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+    --data-urlencode "msisdns=25429907390, 25622307390, 15417242018"
+
+```
+
+```javascript
+const app_name = require('app_name');
+
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let response = api.bulk_hlr_lookup.search("25429907390,25622307390,15417242018");
+console.log(response);
+```
+
+```php
+<?
+require 'app_name';
+use AppName\APIClient;
+
+$api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
+$response = $api->bulk_hlr_lookup->search("25429907390, 25622307390, 15417242018");
+print_r($response);
+?>
+```
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "hlr_id": 1245,
+    "msisdn": 25429907390,
+    "status": "Active",
+    "country_iso": "KE",
+    "country_name": "Kenya"
+  },
+  {
+    "hlr_id": 8245,
+    "msisdn": 25622307390,
+    "status": "Active",
+    "country_iso": "UG",
+    "country_name": "Uganda"
+  },
+  {
+    "hlr_id": 1245,
+    "msisdn": 15417242018,
+    "status": "Unknown",
+    "country_iso": "US",
+    "country_name": "United States of America"
+  }
+]
+```
+
+This endpoint enables you to send messages.
+
+### HTTP Request
+
+<aside class="success">
+GET http://app-domain.com/api/bulk-hlr-lookup?msisdns=xyz%5C%2Ctrw
+</aside>
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+msisdns | true | Phone numbers you want to look up separated by commas.
+
+Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
+
+Check Balance - https://developers.messagebird.com/docs/balance
+Pricelist - https://developer.nexmo.com/api/developer/pricing
+Check Delivery - https://developer.nexmo.com/api/developer/messages
