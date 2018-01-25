@@ -136,8 +136,8 @@ $response = $api->messages->create(
 
 ```json
 {
+  "id": 134,
   "to": "25409907990",
-  "message_id": 134,
   "status": "Successful",
   "message_price": "0.56"
 }
@@ -148,10 +148,10 @@ This endpoint enables you to send messages.
 ### HTTP Request
 
 <aside class="success">
-GET http://app-domain.com/api/messages
+POST http://app-domain.com/api/messages
 </aside>
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -212,7 +212,7 @@ let response = api.messages.create(
   console.log(response);
 ```
 
-```PHP
+```php
 <?
 require 'app_name';
 use AppName\AppClient;
@@ -231,7 +231,7 @@ $response = api->messages->create(
 
 ```json
 {
-  "message_id": 128,
+  "id": 128,
   "message_price": "1.31",
   "recipients": [
     {
@@ -259,10 +259,10 @@ This endpoint enables you to send bulk messages.
 ### HTTP Request
 
 <aside class="success">
-GET http://app-domain.com/api/bulk-messages
+POST http://app-domain.com/api/bulk-messages
 </aside>
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -335,8 +335,8 @@ $response = $api->voiceMessages->create(
 
 ```json
 {
+  "id": 124,
   "to": "25409907990",
-  "voice_message_id": 124,
   "status": "Successful",
   "voice_message_price": "1.13",
   "voice": "female",
@@ -349,10 +349,10 @@ This endpoint enables you to send voice messages.
 ### HTTP Request
 
 <aside class="success">
-GET http://app-domain.com/api/voice-messages
+POST http://app-domain.com/api/voice-messages
 </aside>
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -437,7 +437,7 @@ $response = api->bulkVoiceMessages->create(
 
 ```json
   {
-    "voice_message_id": 128,
+    "id": 128,
     "voice_message_price": "1.31",
     "voice": "female",
     "language": "en-gb",
@@ -467,10 +467,10 @@ This endpoint enables you to send bulk voice messages.
 ### HTTP Request
 
 <aside class="success">
-GET http://app-domain.com/api/bulk-voice-messages
+POST http://app-domain.com/api/bulk-voice-messages
 </aside>
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -513,7 +513,7 @@ curl "http://app-domain.com/api/hlr-lookup?msisdn=25429907390"
 const app_name = require('app_name');
 
 let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
-let response = api.hlr_lookup.search("25429907390");
+let response = api.hlrLookup.search("25429907390");
 console.log(response);
 ```
 
@@ -523,7 +523,7 @@ require 'app_name';
 use AppName\APIClient;
 
 $api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
-$response = $api->hlr_lookup->search("25429907390");
+$response = $api->hlrLookup->search("25429907390");
 print_r($response);
 ?>
 ```
@@ -531,7 +531,7 @@ print_r($response);
 
 ```json
 {
-  "hlr_id": 1245,
+  "id": 1245,
   "msisdn": 25429907390,
   "status": "Active",
   "country_iso": "KE",
@@ -585,7 +585,7 @@ curl -G -v "http://app-domain.com/api/bulk-hlr-lookup"
 const app_name = require('app_name');
 
 let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
-let response = api.bulk_hlr_lookup.search("25429907390,25622307390,15417242018");
+let response = api.bulkHlLookup.search("25429907390,25622307390,15417242018");
 console.log(response);
 ```
 
@@ -595,7 +595,7 @@ require 'app_name';
 use AppName\APIClient;
 
 $api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
-$response = $api->bulk_hlr_lookup->search("25429907390, 25622307390, 15417242018");
+$response = $api->bulkHlrLookup->search("25429907390, 25622307390, 15417242018");
 print_r($response);
 ?>
 ```
@@ -604,21 +604,21 @@ print_r($response);
 ```json
 [
   {
-    "hlr_id": 1245,
+    "id": 1245,
     "msisdn": 25429907390,
     "status": "Active",
     "country_iso": "KE",
     "country_name": "Kenya"
   },
   {
-    "hlr_id": 8245,
+    "id": 8245,
     "msisdn": 25622307390,
     "status": "Active",
     "country_iso": "UG",
     "country_name": "Uganda"
   },
   {
-    "hlr_id": 1245,
+    "id": 1245,
     "msisdn": 15417242018,
     "status": "Unknown",
     "country_iso": "US",
@@ -643,6 +643,233 @@ msisdns | true | Phone numbers you want to look up separated by commas.
 
 Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
 
-Check Balance - https://developers.messagebird.com/docs/balance
-Pricelist - https://developer.nexmo.com/api/developer/pricing
-Check Delivery - https://developer.nexmo.com/api/developer/messages
+# Balances
+Returns your balance if the request was successful.
+
+## Check Balance
+
+```ruby
+require 'app_name'
+
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.balance
+puts response
+```
+
+```python
+import app_name
+
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.balance()
+print(response)
+```
+
+```shell
+curl "http://app-domain.com/api/balance"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+
+```
+
+```javascript
+const app_name = require('app_name');
+
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let response = api.balance();
+console.log(response);
+```
+
+```php
+<?
+require 'app_name';
+use AppName\APIClient;
+
+$api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
+$response = $api->balance();
+print_r($response);
+?>
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 16245,
+  "account_type": "prepaid",
+  "currency": "USD",
+  "amount": "57"
+}
+```
+
+This endpoint allows you to query your balance.
+
+### HTTP Request
+
+<aside class="success">
+GET http://app-domain.com/api/balance
+</aside>
+
+### Query Parameters
+No query parameters
+
+# PriceList
+Returns the pricelist of the country queried.
+
+## Check PriceList
+
+```ruby
+require 'app_name'
+
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.pricelist.search("NL"
+puts response
+```
+
+```python
+import app_name
+
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.pricelist("NL")
+print(response)
+```
+
+```shell
+curl "http://app-domain.com/api/pricelist?country_code=NL"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+
+```
+
+```javascript
+const app_name = require('app_name');
+
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let response = api.pricelist("NL");
+console.log(response);
+```
+
+```php
+<?
+require 'app_name';
+use AppName\APIClient;
+
+$api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
+$response = $api->pricelist("NL");
+print_r($response);
+?>
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "country": "NL",
+  "name": "Netherlands",
+  "prefix": "31",
+  "currency": "EURO",
+  "networks": [
+    {
+      "network": "KPN",
+      "sms_price": "0.13",
+      "voice_message_price": "0.25"
+    },
+    {
+      "network": "Lyca Mobile",
+      "sms_price": "0.09",
+      "voice_message_price": "0.15"
+    },
+    {
+      "network": "Aldi Talk",
+      "sms_price": "0.13",
+      "voice_message_price": "0.29"
+    },
+    {
+      "network": "Telfort",
+      "sms_price": "N/A",
+      "voice_message_price": "N/A"
+    },
+    ... //the list is longer
+  ]
+}
+```
+
+This endpoint allows you to query pricelists per country.
+
+### HTTP Request
+
+<aside class="success">
+GET http://app-domain.com/api/pricelist?country_code=NL
+</aside>
+
+### Query Parameters
+Parameter | Required | Description
+--------- | ------- | -----------
+country_code | true | Country code to search pricing.
+
+# Delivery status
+Returns the delivery status of a message.
+
+## Check Delivery Status
+
+```ruby
+require 'app_name'
+
+api = AppName::APIClient.authorize!('Thequickbrownfoxjumpsoverthelazydog')
+response = api.messages.check_delivery("145")
+puts response
+```
+
+```python
+import app_name
+
+api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog')
+response = api.messages.check_delivery("145")
+print(response)
+```
+
+```shell
+curl "http://app-domain.com/api/messages/145"
+    -H "Content-Type: application/json" \
+    -H "Authorization: Thequickbrownfoxjumpsoverthelazydog"
+
+```
+
+```javascript
+const app_name = require('app_name');
+
+let api = app_name.authorize('Thequickbrownfoxjumpsoverthelazydog');
+let response = api.messages.checkDelivery("145");
+console.log(response);
+```
+
+```php
+<?
+require 'app_name';
+use AppName\APIClient;
+
+$api = AppClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
+$response = $api->messages.checkDelivery("145");
+print_r($response);
+?>
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 145,
+  "date_sent": "2018-01-01 12:00:00",
+  "date_delivered": "2018-01-01 12:01:24",
+  "delivery_status": "DELIVERED"
+}
+```
+
+This endpoint allows you to query your message delivery status.
+
+### HTTP Request
+
+<aside class="success">
+GET http://app-domain.com/api/messages/:id
+</aside>
+
+### Query Parameters
+Parameter | Required | Description
+--------- | ------- | -----------
+id | true | Message ID to be queried
