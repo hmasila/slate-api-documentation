@@ -2,7 +2,7 @@
 title: API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+  - shell: Curl
   - ruby
   - python
   - javascript
@@ -59,7 +59,7 @@ use AppName\APIClient;
 $api = APIClient::authorize('Thequickbrownfoxjumpsoverthelazydog');
 ?>
 ```
-> Make sure to replace `Thequickbrownfoxjumpsoverthelazydog` with your API key.
+> Replace `Thequickbrownfoxjumpsoverthelazydog` with your API key.
 
 AppName uses API keys to allow access to the API. You can register a new AppName API key at our [developer portal](http://app-domain.com/developers).
 
@@ -74,6 +74,8 @@ You must replace <code>Thequickbrownfoxjumpsoverthelazydog</code> with your pers
 # Send SMS
 
 ## Single SMS Messaging
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -132,7 +134,8 @@ $response = $api->messages->create(
   print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+
+> Response:
 
 ```json
 {
@@ -147,10 +150,7 @@ This endpoint enables you to send messages.
 
 ### HTTP Request
 
-<aside class="success">
-POST http://app-domain.com/api/messages
-</aside>
-
+`POST http://app-domain.com/api/messages`
 ### Body Parameters
 
 Parameter | Required | Description
@@ -168,6 +168,7 @@ It is possible to send one message to multiple recipients via a single API reque
 Provide a list of recipient numbers separated with commas. (e.g. 254756667547, 254758778318, 254758809799).
 
 
+> Request:
 
 ```ruby
 require 'app_name'
@@ -227,7 +228,7 @@ $response = api->messages->create(
 ?>
 ```
 
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -258,9 +259,7 @@ This endpoint enables you to send bulk messages.
 
 ### HTTP Request
 
-<aside class="success">
-POST http://app-domain.com/api/bulk-messages
-</aside>
+`POST http://app-domain.com/api/bulk-messages`
 
 ### Body Parameters
 
@@ -273,6 +272,8 @@ text | true | Message to be sent.
 # Send Voice Messages
 
 ## Single Voice Messaging
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -331,7 +332,7 @@ $response = $api->voiceMessages->create(
   print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -348,9 +349,7 @@ This endpoint enables you to send voice messages.
 
 ### HTTP Request
 
-<aside class="success">
-POST http://app-domain.com/api/voice-messages
-</aside>
+`POST http://app-domain.com/api/voice-messages`
 
 ### Body Parameters
 
@@ -372,7 +371,7 @@ It is possible to send one voice message to multiple recipients via a single API
 
 Provide a list of recipient numbers separated with commas. (e.g. 254756667547, 254758778318, 254758809799).
 
-
+> Request:
 
 ```ruby
 require 'app_name'
@@ -433,7 +432,7 @@ $response = api->bulkVoiceMessages->create(
 ?>
 ```
 
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
   {
@@ -466,9 +465,7 @@ This endpoint enables you to send bulk voice messages.
 
 ### HTTP Request
 
-<aside class="success">
-POST http://app-domain.com/api/bulk-voice-messages
-</aside>
+`POST http://app-domain.com/api/bulk-voice-messages`
 
 ### Body Parameters
 
@@ -485,6 +482,8 @@ language | false | The language in which the message needs to be read to the rec
 An HLR allows you to view details of a mobile number (MSISDN).
 
 ## Single HLR Lookup
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -527,7 +526,7 @@ $response = $api->hlrLookup->search("25429907390");
 print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -543,9 +542,7 @@ This endpoint enables you search for phone number details.
 
 ### HTTP Request
 
-<aside class="success">
-GET http://app-domain.com/api/hlr-lookup?msisdn=xyz
-</aside>
+`GET http://app-domain.com/api/hlr-lookup?msisdn=xyz`
 
 ### Query Parameters
 
@@ -556,6 +553,8 @@ msisdn | true | Phone number you want to look up.
 Sanitized phone numbers must begin with the international country code (ex: 254722000000), and should be <= 14 long
 
 ## Bulk HLR Lookup
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -599,7 +598,7 @@ $response = $api->bulkHlrLookup->search("25429907390, 25622307390, 15417242018")
 print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 [
@@ -631,9 +630,7 @@ This endpoint enables you to send messages.
 
 ### HTTP Request
 
-<aside class="success">
-GET http://app-domain.com/api/bulk-hlr-lookup?msisdns=xyz%5C%2Ctrw
-</aside>
+`GET http://app-domain.com/api/bulk-hlr-lookup?msisdns=xyz%5C%2Ctrw`
 
 ### Query Parameters
 
@@ -647,6 +644,8 @@ Sanitized phone numbers must begin with the international country code (ex: 2547
 Returns your balance if the request was successful.
 
 ## Check Balance
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -689,7 +688,7 @@ $response = $api->balance();
 print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -704,9 +703,7 @@ This endpoint allows you to query your balance.
 
 ### HTTP Request
 
-<aside class="success">
-GET http://app-domain.com/api/balance
-</aside>
+`GET http://app-domain.com/api/balance`
 
 ### Query Parameters
 No query parameters
@@ -715,6 +712,8 @@ No query parameters
 Returns the pricelist of the country queried.
 
 ## Check PriceList
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -757,7 +756,7 @@ $response = $api->pricelist("NL");
 print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -795,9 +794,7 @@ This endpoint allows you to query pricelists per country.
 
 ### HTTP Request
 
-<aside class="success">
-GET http://app-domain.com/api/pricelist?country_code=NL
-</aside>
+`GET http://app-domain.com/api/pricelist?country_code=NL`
 
 ### Query Parameters
 Parameter | Required | Description
@@ -808,6 +805,8 @@ country_code | true | Country code to search pricing.
 Returns the delivery status of a message.
 
 ## Check Delivery Status
+
+> Request:
 
 ```ruby
 require 'app_name'
@@ -850,7 +849,7 @@ $response = $api->messages.checkDelivery("145");
 print_r($response);
 ?>
 ```
-> The above command returns JSON structured like this:
+> Response:
 
 ```json
 {
@@ -865,9 +864,7 @@ This endpoint allows you to query your message delivery status.
 
 ### HTTP Request
 
-<aside class="success">
-GET http://app-domain.com/api/messages/:id
-</aside>
+`GET http://app-domain.com/api/messages/:id`
 
 ### Query Parameters
 Parameter | Required | Description
